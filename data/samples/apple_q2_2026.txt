@@ -1,0 +1,36 @@
+AAPL Q2 2026 Financial Performance & Analysis Report
+Date: May 12, 2026
+Prepared by: FinQuery Research Group
+
+Overview:
+Apple Inc. (NASDAQ: AAPL) announced its financial results for its fiscal 2026 second quarter ended March 28, 2026. The company posted a quarterly revenue of $98.4 billion, up 4.5% year-over-year (YoY), driven by robust demand for its new AI-integrated iPhone 17 series and an all-time record revenue in the Services division.
+
+Key Financial Indicators:
+- Revenue: $98.4 billion (vs. $94.2 billion in Q2 2025, +4.5% YoY)
+- Net Income: $25.2 billion (vs. $23.6 billion in Q2 2025, +6.8% YoY)
+- Diluted Earnings Per Share (EPS): $1.62 (up from $1.53 in Q2 2025)
+- Gross Margin: 46.2% (driven by favorable product mix and Services growth)
+- Cash and Cash Equivalents: $74.8 billion
+- Total Debt: $102.5 billion
+
+Segment Performance:
+1. iPhone Segment:
+   - Revenue: $48.2 billion, accounting for 49% of total revenue (up 2.1% YoY).
+   - Growth was primarily driven by the iPhone 17 Pro and Pro Max models, which feature on-device "Apple Intelligence" neural cores. Average Selling Price (ASP) rose to $985.
+2. Services Segment:
+   - Revenue: $26.8 billion, representing 27.2% of total revenue (up 12.4% YoY).
+   - This record high was driven by increases in active paid subscriptions across Apple Music, iCloud+, Apple Pay, and Apple TV+. Total paid subscriptions exceeded 1.15 billion.
+3. Mac & iPad Segments:
+   - Mac Revenue: $7.9 billion (+3.0% YoY), boosted by M5-powered MacBook Air models.
+   - iPad Revenue: $5.6 billion (-1.5% YoY), reflecting longer upgrade cycles despite the launch of new OLED iPad Air variants.
+4. Wearables, Home, and Accessories:
+   - Revenue: $9.9 billion (+1.2% YoY). The Apple Watch Ultra 3 and upgraded AirPods Pro saw steady adoption, offset by flat Smart Home sales.
+
+Strategic R&D & Capital Allocation:
+- Apple spent $8.4 billion on Research & Development (R&D) this quarter, an increase of 14% YoY, heavily indexing on custom silicon, private cloud compute nodes, and next-generation robotics.
+- The Board of Directors declared a cash dividend of $0.26 per share and authorized an additional $110 billion for share repurchases.
+
+Outlook & Guidance for Q3 2026:
+- Apple expects revenue growth to be similar to the March quarter (+4% to +5% range).
+- Gross margin is expected to be between 45.5% and 46.5%.
+- Operating expenses are estimated to be between $14.3 billion and $14.5 billion.

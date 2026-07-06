@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinQuery AI - Algorithmic Stock & Finance RAG Terminal</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/landing-style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="brand">
+                <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <div class="brand-text">
+                    <h1>FinQuery AI</h1>
+                    <span>Stock RAG Engine</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#technology">RAG Engine</a>
+                <a href="#watchlist">Markets</a>
+            </div>
+            <button onclick="window.location.href='/terminal'" class="btn btn-primary nav-cta">
+                <span>Launch Terminal</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="grid-overlay"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge">⚡ Advanced Financial Intelligence</span>
+                <h1 class="hero-title">
+                    The Intelligent RAG Terminal for <span class="highlight-text">Financial Analysts</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Wield localized hybrid document search, dynamic click-to-chart analytics, and offline stock price candlesticks. Built for rapid earnings report inspections.
+                </p>
+                <div class="hero-ctas">
+                    <button onclick="window.location.href='/terminal'" class="btn btn-primary hero-btn">
+                        <span>Access Terminal Workspace</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                    <a href="#features" class="btn btn-secondary hero-btn-secondary">Explore Blueprint</a>
+                </div>
+            </div>
+            
+            <!-- Terminal Graphic Preview -->
+            <div class="terminal-preview-card">
+                <div class="terminal-preview-header">
+                    <div class="preview-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <span class="preview-title">finquery_terminal@desktop</span>
+                </div>
+                <div class="terminal-preview-body">
+                    <div class="line prompt">user_query: <span class="gold-text">What was Nvidia's services margin vs total revenue?</span></div>
+                    <div class="line response">
+                        <p class="meta">[AI PIPELINE RETRIEVED 4 CHUNKS FROM nvda_q2_2026.txt]</p>
+                        <p>Based on Nvidia's Q2 2026 reports, total revenue reached <span class="click-tag">$32.5 billion</span>, up <span class="click-tag">12.4%</span> sequentially. Gross margin remains optimal at <span class="click-tag">75.4%</span>, driven by Blackwell GPU chip demand and cloud data center buildouts.</p>
+                    </div>
+                    <div class="preview-widget">
+                        <div class="widget-header">
+                            <span>Analytics monitor</span>
+                            <span class="live-tag">live</span>
+                        </div>
+                        <div class="widget-graph">
+                            <div class="bar-col" style="height: 90%;"><span class="bar-val">$32.5B</span><span class="bar-lbl">Total Rev</span></div>
+                            <div class="bar-col" style="height: 75%;"><span class="bar-val">75.4%</span><span class="bar-lbl">Gross Margin</span></div>
+                            <div class="bar-col" style="height: 15%;"><span class="bar-val">12.4%</span><span class="bar-lbl">Seq Growth</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Live Market Ticker Marquee -->
+    <section class="ticker-marquee-section" id="watchlist">
+        <div class="ticker-marquee-container">
+            <div class="ticker-track">
+                <!-- Duplicate lists for infinite loop scroll -->
+                <div class="ticker-box">
+                    <span class="ticker-name">AAPL (Apple)</span>
+                    <span class="ticker-val" id="marquee-price-AAPL">$189.42</span>
+                    <span class="ticker-change up" id="marquee-change-AAPL">+0.54%</span>
+                </div>
+                <div class="ticker-box">
+                    <span class="ticker-name">NVDA (Nvidia)</span>
+                    <span class="ticker-val" id="marquee-price-NVDA">$126.30</span>
+                    <span class="ticker-change up" id="marquee-change-NVDA">+1.85%</span>
+                </div>
+                <div class="ticker-box">
+                    <span class="ticker-name">TSLA (Tesla)</span>
+                    <span class="ticker-val" id="marquee-price-TSLA">$178.45</span>
+                    <span class="ticker-change down" id="marquee-change-TSLA">-0.82%</span>
+                </div>
+                <!-- Copy 2 -->
+                <div class="ticker-box">
+                    <span class="ticker-name">AAPL (Apple)</span>
+                    <span class="ticker-val" id="marquee-price-AAPL2">$189.42</span>
+                    <span class="ticker-change up" id="marquee-change-AAPL2">+0.54%</span>
+                </div>
+                <div class="ticker-box">
+                    <span class="ticker-name">NVDA (Nvidia)</span>
+                    <span class="ticker-val" id="marquee-price-NVDA2">$126.30</span>
+                    <span class="ticker-change up" id="marquee-change-NVDA2">+1.85%</span>
+                </div>
+                <div class="ticker-box">
+                    <span class="ticker-name">TSLA (Tesla)</span>
+                    <span class="ticker-val" id="marquee-price-TSLA2">$178.45</span>
+                    <span class="ticker-change down" id="marquee-change-TSLA2">-0.82%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Built for Analytics</span>
+                <h2 class="section-title">Core Terminal Capabilities</h2>
+                <p class="section-subtitle">A collection of custom features designed specifically for wealth management, comparative research, and algorithmic analysis.</p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Card 1 -->
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    </div>
+                    <h3>Interactive Click-to-Chart</h3>
+                    <p>Click highlighted stock values, percentages, or metrics within conversational replies to dynamically render custom comparisons in the drawer panel.</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3>Offline Candlestick Charts</h3>
+                    <p>Native, self-contained stock price rendering. Zoom and pan weekly stock price charts for Apple, Nvidia, and Tesla with zero external network downloads.</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                    </div>
+                    <h3>Side-by-Side Metric Matrix</h3>
+                    <p>Compare crucial indicators side-by-side. View revenue, gross margin, growth drivers, and main risks in a unified dashboard grid layout.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="feature-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <h3>Markdown Transcript Export</h3>
+                    <p>Preserve active chats inside local storage. Filter indexed knowledge-base documents and download full conversational logs into clean Markdown.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RAG Technology Pipeline Section -->
+    <section class="rag-pipeline-section" id="technology">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">How it works</span>
+                <h2 class="section-title">The Hybrid RAG Pipeline Blueprint</h2>
+                <p class="section-subtitle">We merge deep semantic vector coordinates with traditional keyword frequency matching to build an ultra-resilient search pipeline.</p>
+            </div>
+
+            <div class="pipeline-flow-container">
+                <!-- Step 1 -->
+                <div class="flow-step">
+                    <div class="step-num">01</div>
+                    <h4>Ingestion & Chunking</h4>
+                    <p>Uploaded documents (PDF, TXT, MD) are cleaned, tokenized, and parsed into sliding window text segments (500-char overlap checks).</p>
+                </div>
+                <div class="flow-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flow-step">
+                    <div class="step-num">02</div>
+                    <h4>Dual Embedding Index</h4>
+                    <p>Chunks obtain deep 384-dim semantic embeddings via HuggingFace API and are cached inside SQLite vectors tables with metadata indexes.</p>
+                </div>
+                <div class="flow-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flow-step">
+                    <div class="step-num">03</div>
+                    <h4>Hybrid Ranker</h4>
+                    <p>Searches rank data by combining semantic cosine similarity scores and keyword overlap percentages to prevent model hallucinations.</p>
+                </div>
+                <div class="flow-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="flow-step">
+                    <div class="step-num">04</div>
+                    <h4>Llama 3 Synthesis</h4>
+                    <p>Retrieved contexts are passed into Groq's high-speed Llama 3 API for structured, badge-referenced, and plotable answer synthesis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-bottom-section">
+        <div class="cta-gradient-box">
+            <h2>Ready to inspect financial profiles?</h2>
+            <p>Launch the FinQuery interactive stock terminal space now. Upload files, clear logs, and build charts in seconds.</p>
+            <button onclick="window.location.href='/terminal'" class="btn btn-primary cta-btn">
+                <span>Launch RAG Workspace</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-landing">
+        <div class="footer-container">
+            <span class="footer-copyright">© 2026 FinQuery AI. High-performance offline stock analysis.</span>
+            <span class="footer-tag">Groq Llama-3-70B • HuggingFace Embeddings • SQLite SQLite3</span>
+        </div>
+    </footer>
+
+    <!-- Simple ticker update script -->
+    <script>
+        setInterval(() => {
+            const tickers = ["AAPL", "NVDA", "TSLA"];
+            tickers.forEach(ticker => {
+                const els = document.querySelectorAll(`[id^="marquee-price-${ticker}"]`);
+                const changeEls = document.querySelectorAll(`[id^="marquee-change-${ticker}"]`);
+                if (els.length === 0) return;
+                
+                let curPrice = parseFloat(els[0].textContent.replace("$", ""));
+                let curChange = parseFloat(changeEls[0].textContent.replace("%", ""));
+                
+                let tick = (Math.random() - 0.48) * (curPrice * 0.0012);
+                let newPrice = curPrice + tick;
+                let newChange = curChange + (tick / curPrice) * 100;
+                
+                els.forEach(el => el.textContent = `$${newPrice.toFixed(2)}`);
+                changeEls.forEach(el => {
+                    if (newChange >= 0) {
+                        el.textContent = `+${newChange.toFixed(2)}%`;
+                        el.className = "ticker-change up";
+                    } else {
+                        el.textContent = `${newChange.toFixed(2)}%`;
+                        el.className = "ticker-change down";
+                    }
+                });
+            });
+        }, 4000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinQuery AI - Stock & Finance RAG Terminal</title>
+    <!-- Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    
+    <!-- Chart.js for custom analysis plots -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand" style="cursor: pointer;" onclick="window.location.href='/'" title="Return to Landing Page">
+                <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                <div class="brand-text">
+                    <h1>FinQuery AI</h1>
+                    <span>Stock RAG Terminal</span>
+                </div>
+            </div>
+
+            <!-- API Configuration Section -->
+            <div class="sidebar-section">
+                <h2>Terminal Configuration</h2>
+                <div class="config-status">
+                    <div class="status-item">
+                        <span class="status-label">Groq LLM:</span>
+                        <span id="groq-status" class="status-badge status-missing">Missing</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">HF Embeddings:</span>
+                        <span id="hf-status" class="status-badge status-missing">Missing</span>
+                    </div>
+                </div>
+                
+                <button id="toggle-keys-btn" class="btn btn-secondary">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    Configure API Keys
+                </button>
+
+                <div id="keys-panel" class="keys-panel hidden">
+                    <div class="form-group">
+                        <label for="groq-key-input">Groq API Key</label>
+                        <input type="password" id="groq-key-input" placeholder="gsk_..." autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="hf-token-input">HuggingFace Token (Optional)</label>
+                        <input type="password" id="hf-token-input" placeholder="hf_..." autocomplete="off">
+                        <small>Prevents rate limits for embeddings</small>
+                    </div>
+                    <button id="save-keys-btn" class="btn btn-primary btn-sm">Save Keys</button>
+                </div>
+            </div>
+
+            <!-- Live Market Watchlist Widget -->
+            <div class="sidebar-section">
+                <h2>Market Tickers</h2>
+                <div class="watchlist-container">
+                    <div class="watchlist-item" id="watchlist-aapl" title="Click to view Apple Stock Candle chart">
+                        <div class="ticker-group">
+                            <span class="ticker-badge">AAPL</span>
+                            <span class="ticker-company">Apple</span>
+                        </div>
+                        <div class="price-group">
+                            <span class="ticker-price" id="price-AAPL">$189.42</span>
+                            <span class="ticker-change price-up" id="change-AAPL">+0.54%</span>
+                        </div>
+                    </div>
+                    <div class="watchlist-item" id="watchlist-nvda" title="Click to view Nvidia Stock Candle chart">
+                        <div class="ticker-group">
+                            <span class="ticker-badge">NVDA</span>
+                            <span class="ticker-company">Nvidia</span>
+                        </div>
+                        <div class="price-group">
+                            <span class="ticker-price" id="price-NVDA">$126.30</span>
+                            <span class="ticker-change price-up" id="change-NVDA">+1.85%</span>
+                        </div>
+                    </div>
+                    <div class="watchlist-item" id="watchlist-tsla" title="Click to view Tesla Stock Candle chart">
+                        <div class="ticker-group">
+                            <span class="ticker-badge">TSLA</span>
+                            <span class="ticker-company">Tesla</span>
+                        </div>
+                        <div class="price-group">
+                            <span class="ticker-price" id="price-TSLA">$178.45</span>
+                            <span class="ticker-change price-down" id="change-TSLA">-0.82%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat History Preservation Section -->
+            <div class="sidebar-section">
+                <div class="section-header-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+                    <h2 style="font-size:0.8rem; font-weight:600; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0;">Chat Sessions</h2>
+                    <div style="display:flex; gap:0.25rem;">
+                        <button id="export-chat-btn" class="btn btn-secondary btn-sm" style="padding:0.25rem 0.4rem; font-size:0.7rem;" title="Export current chat transcript to Markdown">Export</button>
+                        <button id="new-chat-btn" class="btn btn-primary btn-sm" style="padding:0.25rem 0.5rem; font-size:0.7rem;">+ New</button>
+                    </div>
+                </div>
+                <div id="chats-history-list" class="chats-history-list" style="display:flex; flex-direction:column; gap:0.4rem; max-height:130px; overflow-y:auto;">
+                    <!-- Stored chats loaded dynamically -->
+                    <div class="empty-docs" style="padding:0.6rem; font-size:0.75rem; text-align:center;">No saved chats.</div>
+                </div>
+            </div>
+
+            <!-- Knowledge Base / Document Manager -->
+            <div class="sidebar-section document-hub">
+                <h2>Knowledge Base</h2>
+                
+                <!-- Upload Dropzone -->
+                <div class="upload-zone" id="drop-zone">
+                    <input type="file" id="file-input" accept=".txt,.pdf,.md" class="hidden">
+                    <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Drag & Drop or <span class="browse-link">Browse</span></p>
+                    <span class="upload-hint">PDF, TXT, MD (Max 10MB)</span>
+                </div>
+
+                <!-- Document List -->
+                <div class="doc-list-container">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                        <h3 style="margin:0;">Indexed Documents (<span id="doc-count">0</span>)</h3>
+                    </div>
+                    <!-- Dynamic Document Search Filter -->
+                    <input type="text" id="doc-search-input" placeholder="Filter indexed files by name..." style="width: 100%; padding: 0.35rem 0.6rem; font-size: 0.72rem; background: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); margin-bottom: 0.5rem; outline: none; transition: border var(--transition-speed);" />
+                    
+                    <div id="doc-list" class="doc-list">
+                        <!-- Documents dynamic render here -->
+                        <div class="empty-docs">
+                            No documents uploaded yet.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info Widget & Database Reset -->
+            <div class="sidebar-section" style="border-bottom:none; margin-top:auto;">
+                <h2>Terminal Monitor</h2>
+                <div class="stats-panel" style="display:flex; flex-direction:column; gap:0.4rem; background-color:rgba(15, 23, 42, 0.4); border:1px solid var(--border-color); border-radius:6px; padding:0.6rem 0.8rem; font-size:0.75rem; color:var(--text-secondary);">
+                    <div class="stats-item" style="display:flex; justify-content:space-between;">
+                        <span>Index count:</span>
+                        <span id="stat-doc-count" class="meta-val" style="color:var(--text-primary);">0 docs</span>
+                    </div>
+                    <div class="stats-item" style="display:flex; justify-content:space-between;">
+                        <span>Terminal speed:</span>
+                        <span class="meta-val" style="color:var(--accent-sky); font-weight:600;">Optimal</span>
+                    </div>
+                </div>
+                <button id="reset-db-btn" class="btn btn-secondary btn-sm" style="width: 100%; border-color: rgba(217, 119, 6, 0.3); color: #fcd34d; margin-top: 0.6rem; font-size:0.75rem;">
+                    ⚠️ Clean Database Reset
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Terminal Panel -->
+        <main class="terminal-main">
+            <!-- Terminal Header -->
+            <header class="terminal-header">
+                <div class="header-left">
+                    <span class="status-pulse"></span>
+                    <span class="terminal-title">Stock Analysis Pipeline</span>
+                </div>
+                <div class="header-right">
+                    <!-- Toggle right Monitor Drawer -->
+                    <button id="toggle-drawer-btn" class="btn btn-secondary btn-sm" style="margin-right: 0.75rem;" title="Toggle right monitor drawer panel">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.25rem;"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+                        <span>Toggle Monitor</span>
+                    </button>
+                    <label for="model-selector" class="model-label">Inference Model:</label>
+                    <select id="model-selector" class="model-select">
+                        <option value="llama-3.3-70b-versatile">Llama 3.3 70B (High Quality)</option>
+                        <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Chat Message Container -->
+            <div class="chat-viewport" id="chat-viewport">
+                <!-- Welcome Message -->
+                <div class="message system-message">
+                    <div class="message-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <div class="message-content">
+                        <p><strong>System Initialized.</strong></p>
+                        <p>Welcome to <strong>FinQuery Stock & Financial RAG Terminal</strong>.</p>
+                        <p>I have preloaded market outlook analyses and Q2 2026 reports for <strong>Apple (AAPL)</strong>, <strong>Nvidia (NVDA)</strong>, and <strong>Tesla (TSLA)</strong>. Ask me anything about revenues, profit margins, GPU backlogs, or energy storage deployments.</p>
+                        <p>You can also upload your own documents or delete indexed files from the sidebar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loader Overlay (Shimmering) -->
+            <div id="chat-loader" class="chat-loader hidden">
+                <div class="spinner-container">
+                    <div class="terminal-spinner"></div>
+                    <span class="loading-text">Retrieving vector contexts & generating response...</span>
+                </div>
+            </div>
+
+            <!-- Input Bar -->
+            <footer class="input-area">
+                <form id="chat-form" class="chat-form">
+                    <input 
+                        type="text" 
+                        id="chat-input" 
+                        placeholder="Ask about Apple margins, Tesla storage, or Nvidia prospects..." 
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" id="send-btn" class="btn btn-primary">
+                        <span>Send</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </footer>
+        </main>
+
+        <!-- Citation & Analytics Drawer Panel (Slides in from the right) -->
+        <div id="citation-drawer" class="citation-drawer drawer-collapsed">
+            <div class="drawer-header">
+                <div class="drawer-tabs">
+                    <button id="tab-citations-btn" class="drawer-tab active">Citations</button>
+                    <button id="tab-chart-btn" class="drawer-tab">Analytics</button>
+                    <button id="tab-market-btn" class="drawer-tab">Market Chart</button>
+                    <button id="tab-compare-btn" class="drawer-tab">Comparison</button>
+                </div>
+                <button id="close-drawer-btn" class="close-btn">&times;</button>
+            </div>
+            <div class="drawer-body">
+                <!-- Citations Tab Content -->
+                <div id="tab-content-citations" class="tab-content">
+                    <div class="citation-meta-card">
+                        <div class="meta-row">
+                            <span class="meta-label">Source Document:</span>
+                            <span id="citation-filename" class="meta-val">-</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Chunk Index:</span>
+                            <span id="citation-index" class="meta-val">-</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Hybrid Score:</span>
+                            <span id="citation-score" class="meta-val score-highlight">-</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Semantic Cosine Sim:</span>
+                            <span id="citation-semantic" class="meta-val">-</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Keyword Overlap:</span>
+                            <span id="citation-keyword" class="meta-val">-</span>
+                        </div>
+                    </div>
+                    <div class="citation-content-container">
+                        <h4>Verbatim Context Snippet</h4>
+                        <div id="citation-text" class="citation-text-box">
+                            Select a citation badge in the chat window to view the source text snippet retrieved.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart Tab Content -->
+                <div id="tab-content-chart" class="tab-content hidden">
+                    <div class="chart-container-el">
+                        <canvas id="analytics-chart"></canvas>
+                    </div>
+                    <div class="chart-controls">
+                        <button id="clear-chart-btn" class="btn btn-secondary btn-sm" style="width: 100%;">Clear Chart Data</button>
+                        <p class="chart-help-text">Click on any bold figures (e.g. percentages, currencies) in the chat response to plot them here dynamically.</p>
+                    </div>
+                    <div class="chart-list-container" style="margin-top: 1rem;">
+                        <h4 style="font-size: 0.8rem; font-weight:600; color:var(--text-secondary); text-transform:uppercase; margin-bottom:0.5rem;">Plotted Data</h4>
+                        <div id="chart-data-list" class="chart-data-list">
+                            <div class="empty-docs" style="padding: 1rem; font-size:0.75rem;">No data points plotted yet.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Candlestick Tab Content -->
+                <div id="tab-content-market" class="tab-content hidden">
+                    <div class="market-select-row" style="display:flex; gap:0.5rem; align-items:center; justify-content:space-between; margin-bottom:0.25rem;">
+                        <label for="market-ticker-select" style="font-size:0.8rem; color:var(--text-secondary); font-weight:500;">Select Stock Price Chart:</label>
+                        <select id="market-ticker-select" class="model-select" style="padding:0.25rem 0.5rem; font-size:0.75rem; width:120px;">
+                            <option value="AAPL">AAPL (Apple)</option>
+                            <option value="NVDA">NVDA (Nvidia)</option>
+                            <option value="TSLA">TSLA (Tesla)</option>
+                        </select>
+                    </div>
+                    <div class="chart-container-el" style="height:270px; background-color:#0b0f19;">
+                        <canvas id="candlestick-canvas" style="width:100%; height:100%; display:block;"></canvas>
+                    </div>
+                    <p class="chart-help-text">Historical weekly candlestick data for the first half of 2026.</p>
+                </div>
+
+                <!-- Side-by-Side Comparison Matrix Content -->
+                <div id="tab-content-compare" class="tab-content hidden">
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:0.4rem;">
+                        <h3 style="font-size:0.8rem; font-weight:600; color:var(--accent-sky); margin:0; text-transform:uppercase;">Q2 2026 Metrics Comparison</h3>
+                    </div>
+                    <div class="table-responsive" style="overflow-x:auto; border: 1px solid var(--border-color); border-radius: 6px; background-color: rgba(15,23,42,0.25);">
+                        <table class="financial-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>AAPL</th>
+                                    <th>NVDA</th>
+                                    <th>TSLA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Revenue</strong></td>
+                                    <td>$98.4B</td>
+                                    <td>$32.5B</td>
+                                    <td>$25.2B</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Gross Margin</strong></td>
+                                    <td>46.2%</td>
+                                    <td>75.4%</td>
+                                    <td>15.4%</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Core Focus</strong></td>
+                                    <td>iPhone & Services</td>
+                                    <td>Blackwell GPUs</td>
+                                    <td>Lathrop Megapacks</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Key Risk</strong></td>
+                                    <td>Consumer hardware</td>
+                                    <td>AI chip supply</td>
+                                    <td>Auto market demand</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="chart-help-text">Quick comparison compiled automatically from preloaded earning reports.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Load App logic -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

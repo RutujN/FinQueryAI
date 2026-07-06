@@ -1,0 +1,25 @@
+TSLA 2026 Growth Analysis & Technological Roadmap
+Date: April 22, 2026
+Prepared by: FinQuery Research Group
+
+Core Business Overview:
+Tesla, Inc. (NASDAQ: TSLA) is navigating a transitional phase in its automotive business while experiencing explosive growth in its Energy Storage division. For the trailing twelve months, Tesla delivered 1.95 million vehicles, representing a modest 6% increase YoY. However, automotive margins excluding regulatory credits compressed to 15.4%, down from 18.2% in 2025, due to persistent price adjustments in key markets.
+
+Automotive Deliveries & Pricing Trends:
+- Model 3/Y: Account for 92% of all deliveries. The refreshed Model Y (codenamed "Juniper") launched in early 2026 and revived demand in Europe and China.
+- Next-Gen Low-Cost Vehicle (Model 2 / Red-Ink Project): Tesla targeting a starting price of $24,900, with production starting in late 2026 at Gigafactory Texas.
+- Cybertruck: Production stabilized at a run rate of 75,000 units annually, though margins remain negative due to complex alloy steel body production and dry-battery electrode yields.
+
+Energy Storage - The New Growth Engine:
+- Energy Storage deployments reached a record 24.8 GWh in 2025, and are projected to hit 42.0 GWh in 2026.
+- The Megapack factory in Lathrop, California, reached its full 40 GWh annual capacity run-rate. The new Megapack factory in Shanghai, China, commenced initial production in Q1 2026, targeting a 20 GWh annual capacity by year-end.
+- Energy storage margins surpassed automotive margins for the first time, reaching 24.6% in the recent quarter, contributing $1.8 billion in quarterly gross profit.
+
+Autonomous Driving, FSD & Robotaxi (Cybercab):
+- Full Self-Driving (FSD) Supervised (v12.5 and v13) achieved over 2.5 billion miles driven. Cumulative deferred revenue recognized from FSD reached $450 million this quarter.
+- Cybercab (Tesla's purpose-built Robotaxi) is scheduled for small-scale testing in early 2027 in Texas and Arizona. Regulators have granted initial permits for driverless testing on public roads, but scale depends on achieving an order of magnitude improvement in intervention-free miles.
+- Dojo Supercomputer: Tesla invested an additional $1.2 billion in Dojo hardware in the first half of 2026 to train next-generation End-to-End neural networks.
+
+Financial Position:
+- Cash and Cash Equivalents: $30.4 billion (bolstered by reduced capital expenditures on mature product lines).
+- Capital Expenditures: Guided to $9.0 - $11.0 billion for fiscal year 2026, primarily directed to Gigafactory expansion and Dojo compute clusters.

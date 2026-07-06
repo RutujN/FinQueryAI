@@ -1,0 +1,17 @@
+# Secrets and Environment Variables
+.env
+
+# Local Databases and custom uploads
+data/rag_database.db
+data/uploads/*
+!data/uploads/.gitkeep
+
+# Python caching
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS specific files
+.DS_Store
+Thumbs.db
