@@ -620,8 +620,12 @@ document.addEventListener("DOMContentLoaded", () => {
             processed = processed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
             if (msgId) {
-                processed = processed.replace(/\[(\d+)\]/g, (match, num) => {
-                    return `<span class="citation-link" data-citation-idx="${num}">[${num}]</span>`;
+                // Match single or grouped comma-separated indices, e.g. [1] or [1, 2, 3]
+                processed = processed.replace(/\[([\d\s,]+)\]/g, (match, content) => {
+                    const parts = content.split(/[\s,]+/).filter(x => x.trim() !== "");
+                    return parts.map(num => {
+                        return `<span class="citation-link" data-citation-idx="${num}">[${num}]</span>`;
+                    }).join(" ");
                 });
             }
 
