@@ -7,7 +7,6 @@
 [![SQLite3](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black)](https://render.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 **A high-performance, containerized RAG dashboard built to analyze quarterly reports, plot real-time financial metrics, and review weekly candlestick price charts.**
 
@@ -130,8 +129,3 @@ To build and run the application locally inside Docker:
 docker build -t finquery-ai .
 docker run -p 8000:8000 --env GROQ_API_KEY="gsk_..." finquery-ai
 ```
-
----
-
-## 📄 License
-Distributed under the MIT License. See `LICENSE` for more information.
