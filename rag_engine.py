@@ -12,7 +12,7 @@ EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 HF_API_URL = f"https://api-inference.huggingface.co/models/{EMBEDDING_MODEL}"
 
 # Default LLM Model Info
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-120b"
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 def init_db(db_path: str):
@@ -315,7 +315,7 @@ def generate_grounded_response(
         "using ONLY the information provided in the Context Documents. Do NOT make up facts.\n"
         "Citation Guidelines:\n"
         "- Every single claim or data point you fetch from a document MUST be immediately followed by a citation badge "
-        "like [1], [2], corresponding to the index of the Context Document it came from.\n"
+        "like [1], [2], corresponding to the index of the Context Document it came from. Always use standard ASCII square brackets like [1] or [2], never unicode brackets like 【 or 】.\n"
         "- You may group citations if needed (e.g. [1, 3] or [2]).\n"
         "- If multiple parts of your answer refer to the same document, include the citation after each point.\n"
         "Formatting:\n"
@@ -329,13 +329,26 @@ def generate_grounded_response(
     
     user_prompt = f"Here is the context data:\n\n{context_str}\nUser Question: {query}\n\nAnswer:"
     
+    # Map legacy/decommissioned Groq models to active high-performance models
+    legacy_model_map = {
+        "llama-3.3-70b-versatile": "openai/gpt-oss-120b",
+        "llama-3.3-70b-specdec": "openai/gpt-oss-120b",
+        "llama-3.1-8b-instant": "openai/gpt-oss-20b",
+        "llama-3.1-70b-versatile": "openai/gpt-oss-120b",
+        "llama3-70b-8192": "openai/gpt-oss-120b",
+        "llama3-8b-8192": "openai/gpt-oss-20b",
+        "mixtral-8x7b-32768": "openai/gpt-oss-120b",
+        "gemma2-9b-it": "openai/gpt-oss-20b"
+    }
+    target_model = legacy_model_map.get(model, model)
+    
     headers = {
         "Authorization": f"Bearer {groq_key}",
         "Content-Type": "application/json"
     }
     
     data = {
-        "model": model,
+        "model": target_model,
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
@@ -344,6 +357,11 @@ def generate_grounded_response(
     }
     
     response = requests.post(GROQ_API_URL, headers=headers, json=data, timeout=30)
+    
+    # Auto-fallback to primary default model if requested model is 404 (model_not_found / decommissioned)
+    if response.status_code == 404 and target_model != GROQ_MODEL:
+        data["model"] = GROQ_MODEL
+        response = requests.post(GROQ_API_URL, headers=headers, json=data, timeout=30)
     
     if response.status_code == 200:
         res_json = response.json()

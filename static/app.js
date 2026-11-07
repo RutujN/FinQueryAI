@@ -608,6 +608,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function formatAIResponse(text, msgId) {
         let html = text
+            .replace(/[\u202f\u00a0]/g, " ")
+            .replace(/【/g, "[")
+            .replace(/】/g, "]")
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;");
@@ -616,6 +619,17 @@ document.addEventListener("DOMContentLoaded", () => {
         paragraphs = paragraphs.map(p => {
             let processed = p.trim();
             if (!processed) return "";
+
+            if (processed === "---" || processed === "***") {
+                return `<hr style="border: 0; border-top: 1px solid var(--border-color); margin: 0.8rem 0;">`;
+            }
+
+            if (processed.startsWith("### ")) {
+                return `<h4 style="margin: 0.8rem 0 0.4rem; color: var(--accent-sky); font-size: 0.9rem;">${processed.substring(4)}</h4>`;
+            }
+            if (processed.startsWith("## ")) {
+                return `<h3 style="margin: 0.9rem 0 0.4rem; color: var(--accent-gold); font-size: 1rem;">${processed.substring(3)}</h3>`;
+            }
             
             processed = processed.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
@@ -651,6 +665,28 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 return match;
             });
+
+            // Parse Markdown Tables
+            const lines = processed.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+            if (lines.length >= 2 && lines.every(l => l.startsWith("|") && l.endsWith("|"))) {
+                let tableHtml = `<div class="table-responsive" style="margin: 0.6rem 0; overflow-x: auto; border: 1px solid var(--border-color); border-radius: 6px;"><table class="financial-table">`;
+                let isHeader = true;
+                for (let line of lines) {
+                    if (/^\|[-:\s|]+\|$/.test(line)) {
+                        isHeader = false;
+                        continue;
+                    }
+                    const cells = line.split("|").slice(1, -1).map(c => c.trim());
+                    tableHtml += "<tr>";
+                    for (let cell of cells) {
+                        const tag = isHeader ? "th" : "td";
+                        tableHtml += `<${tag}>${cell}</${tag}>`;
+                    }
+                    tableHtml += "</tr>";
+                }
+                tableHtml += "</table></div>";
+                return tableHtml;
+            }
 
             if (processed.startsWith("- ") || processed.startsWith("* ")) {
                 let items = processed.split(/\n[-*] /);

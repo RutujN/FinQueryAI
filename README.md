@@ -31,7 +31,7 @@ Built from the ground up to be **100% compatible with Python 3.14**, it sidestep
 | **API Backend** | `FastAPI` (Python 3.14) | Serves endpoints, routes files, and handles LLM contexts. |
 | **Vector Database** | `SQLite3` (`sqlite3`) | Persistent storage of metadata, text slices, and serialized float coordinate vectors. |
 | **Semantic Embeddings** | HuggingFace Inference API | Generates 384-dimension vectors using the `all-MiniLM-L6-v2` transformer. |
-| **LLM Inference** | Groq Cloud API | Processes grounded prompts via `llama-3.3-70b-versatile` (70B model). |
+| **LLM Inference** | Groq Cloud API | Processes grounded prompts via `openai/gpt-oss-120b` & `qwen/qwen3.8-27b`. |
 | **Visual Charts** | `Chart.js` | Plots numeric metrics (currency, margins) extracted from chat responses. |
 | **Stock Canvas** | HTML5 Canvas 2D | Renders weekly stock price candlestick charts offline without third-party CDNs. |
 | **Frontend UI** | HTML5 / CSS3 / ES6 Javascript | Glassmorphic design with a premium, luxury **Golden Bronze & Warm Stone** palette. |
